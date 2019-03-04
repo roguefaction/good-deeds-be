@@ -5,7 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Entity
-@Table(name="Job")
+@Table(name = "Job")
 public class Job implements Serializable {
 
     public Job() {

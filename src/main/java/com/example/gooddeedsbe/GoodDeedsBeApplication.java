@@ -6,9 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class GoodDeedsBeApplication {
 
-	public static void main(String[] args) {
-		// test comment
-		SpringApplication.run(GoodDeedsBeApplication.class, args);
-	}
+    public static void main(String[] args) {
+
+        // test comment
+        SpringApplication.run(GoodDeedsBeApplication.class, args);
+    }
 
 }

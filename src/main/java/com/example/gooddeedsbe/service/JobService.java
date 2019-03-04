@@ -8,6 +8,8 @@ import java.util.List;
 @Service
 public interface JobService {
     List<Job> getAllJobs();
+
     Job createJob(Job job);
+
     void deleteJob(int id);
 }
