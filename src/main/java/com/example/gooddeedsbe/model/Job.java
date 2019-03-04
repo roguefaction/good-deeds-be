@@ -1,15 +1,11 @@
 package com.example.gooddeedsbe.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "job")
 public class Job implements Serializable {
-
-    public Job() {
-    }
 
     @Id
     @Column(name = "job_id")
