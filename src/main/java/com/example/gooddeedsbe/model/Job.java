@@ -5,7 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Job")
+@Table(name = "job")
 public class Job implements Serializable {
 
     public Job() {
@@ -14,125 +14,123 @@ public class Job implements Serializable {
     @Id
     @Column(name = "job_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int Id;
+    private int id;
 
-    @Column(name = "name")
-    private String Name;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "city")
-    private String City;
+    private String city;
 
-    @Column(name = "contact_peron")
-    private String ContactPerson;
+    @Column(name = "contact_person")
+    private String contactPerson;
 
     @Column(name = "phone_number")
-    private String PhoneNumber;
+    private String phoneNumber;
 
     @Column(name = "email")
-    private String Email;
+    private String email;
 
     @Column(name = "organization")
-    private String Organization;
+    private String organization;
 
     @Column(name = "max_people")
-    private int MaxPeople;
+    private int maxPeople;
 
     @Column(name = "current_people")
-    private int CurrentPeople;
-
+    private int currentPeople;
 
     @Column(name = "description")
-    private String Description;
-
+    private String description;
 
     @Column(name = "tags")
-    private String Tags;
+    private String tags;
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 
-    public String getName() {
-        return Name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getCity() {
-        return City;
+        return city;
     }
 
     public void setCity(String city) {
-        City = city;
+        this.city = city;
     }
 
     public String getContactPerson() {
-        return ContactPerson;
+        return contactPerson;
     }
 
     public void setContactPerson(String contactPerson) {
-        ContactPerson = contactPerson;
+        this.contactPerson = contactPerson;
     }
 
     public String getPhoneNumber() {
-        return PhoneNumber;
+        return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        PhoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getOrganization() {
-        return Organization;
+        return organization;
     }
 
     public void setOrganization(String organization) {
-        Organization = organization;
+        this.organization = organization;
     }
 
     public int getMaxPeople() {
-        return MaxPeople;
+        return maxPeople;
     }
 
     public void setMaxPeople(int maxPeople) {
-        MaxPeople = maxPeople;
+        this.maxPeople = maxPeople;
     }
 
     public int getCurrentPeople() {
-        return CurrentPeople;
+        return currentPeople;
     }
 
     public void setCurrentPeople(int currentPeople) {
-        CurrentPeople = currentPeople;
+        this.currentPeople = currentPeople;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public String getTags() {
-        return Tags;
+        return tags;
     }
 
     public void setTags(String tags) {
-        Tags = tags;
+        this.tags = tags;
     }
 }
