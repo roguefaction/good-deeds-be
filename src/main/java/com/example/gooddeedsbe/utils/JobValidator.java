@@ -17,7 +17,7 @@ public class JobValidator {
     private static final String HASHTAG_REGEX = "#[A-Za-z0-9\\-\\.\\_]+";
 
 
-    static void validateTitle(String title) throws TitleInvalidException {
+    public static void validateTitle(String title) throws TitleInvalidException {
 
         if (title.length() < 5 || title.length() > 50) {
             throw new TitleInvalidException("Title must be between 5 and 50 characters long");
@@ -25,14 +25,14 @@ public class JobValidator {
     }
 
 
-    static void validateOrganization(String organization) throws OrganizationInvalidException {
+    public static void validateOrganization(String organization) throws OrganizationInvalidException {
 
         if (organization.length() < 5 || organization.length() > 50) {
             throw new OrganizationInvalidException("Organization name must be between 5 and 50 characters long");
         }
     }
 
-    static void validateCity(String city) throws CityInvalidException {
+    public static void validateCity(String city) throws CityInvalidException {
 
         pattern = Pattern.compile(NUMBER_REGEX, Pattern.CASE_INSENSITIVE);
         matcher = pattern.matcher(city);
@@ -46,7 +46,7 @@ public class JobValidator {
         }
     }
 
-    static void validateEmail(String email) throws EmailInvalidException {
+    public static void validateEmail(String email) throws EmailInvalidException {
 
         pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
         matcher = pattern.matcher(email);
@@ -56,7 +56,7 @@ public class JobValidator {
         }
     }
 
-    static void validateContactPerson(String contactPerson) throws ContactPersonInvalidException {
+    public static void validateContactPerson(String contactPerson) throws ContactPersonInvalidException {
 
         pattern = Pattern.compile(NUMBER_REGEX, Pattern.CASE_INSENSITIVE);
         matcher = pattern.matcher(contactPerson);
@@ -67,7 +67,7 @@ public class JobValidator {
     }
 
 
-    static void validatePhoneNumber(String phoneNumber) throws PhoneNumberInvalidException {
+    public static void validatePhoneNumber(String phoneNumber) throws PhoneNumberInvalidException {
 
         pattern = Pattern.compile(PHONE_NUMBER_REGEX, Pattern.CASE_INSENSITIVE);
         matcher = pattern.matcher(phoneNumber);
@@ -77,14 +77,14 @@ public class JobValidator {
         }
     }
 
-    static void validateDescription(String description) throws DescriptionInvalidException {
+    public static void validateDescription(String description) throws DescriptionInvalidException {
 
         if (description.length() > 500) {
             throw new DescriptionInvalidException("Description cannot exceed 500 characters");
         }
     }
 
-    static void validateTags(String tagString) throws TagInvalidException {
+    public static void validateTags(String tagString) throws TagInvalidException {
 
         if (tagString.length() > 500) {
             throw new TagInvalidException("Tags should not exceed 500 character");
