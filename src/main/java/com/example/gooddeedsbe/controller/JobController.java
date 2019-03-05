@@ -1,9 +1,12 @@
 package com.example.gooddeedsbe.controller;
 
+import com.example.gooddeedsbe.exceptions.InvalidFieldException;
 import com.example.gooddeedsbe.model.Job;
 import com.example.gooddeedsbe.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -23,7 +26,12 @@ public class JobController {
 
     @PostMapping(value = "/job")
     public Job createJob(@RequestBody Job job) {
-        return jobService.createJob(job);
+        try {
+            return jobService.createJob(job);
+        }catch (InvalidFieldException ex){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
     }
 
     @DeleteMapping(value = "/job/{id}")
