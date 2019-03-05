@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class JobController {
     private JobService jobService;
