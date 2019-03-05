@@ -1,7 +1,9 @@
 package com.example.gooddeedsbe.service;
 
+import com.example.gooddeedsbe.exceptions.InvalidFieldException;
 import com.example.gooddeedsbe.model.Job;
 import com.example.gooddeedsbe.repository.JobRepository;
+import com.example.gooddeedsbe.utils.JobValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,15 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job createJob(Job job) {
+    public Job createJob(Job job) throws InvalidFieldException {
+        JobValidator.validateTitle(job.getTitle());
+        JobValidator.validateCity(job.getCity());
+        JobValidator.validateContactPerson(job.getContactPerson());
+        JobValidator.validatePhoneNumber(job.getPhoneNumber());
+        JobValidator.validateEmail(job.getEmail());
+        JobValidator.validateOrganization(job.getOrganization());
+        JobValidator.validateDescription(job.getDescription());
+        JobValidator.validateTags(job.getTags());
         return jobRepository.save(job);
     }
 
