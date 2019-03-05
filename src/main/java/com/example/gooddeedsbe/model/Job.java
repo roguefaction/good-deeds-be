@@ -36,7 +36,7 @@ public class Job implements Serializable {
     @Column(name = "current_people")
     private int currentPeople;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 500)
     private String description;
 
     @Column(name = "tags")
