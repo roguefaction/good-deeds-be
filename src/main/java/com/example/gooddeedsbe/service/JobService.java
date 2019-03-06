@@ -13,4 +13,6 @@ public interface JobService {
     Job createJob(Job job) throws InvalidFieldException;
 
     void deleteJob(int id);
+
+    Job editJob(int id, Job job) throws InvalidFieldException;
 }

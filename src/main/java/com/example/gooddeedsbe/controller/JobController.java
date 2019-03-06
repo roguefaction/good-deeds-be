@@ -35,6 +35,16 @@ public class JobController {
         }
     }
 
+    @PutMapping(value = "/job/{id}")
+    public Job editJob(@PathVariable int id, @RequestBody Job job){
+        try{
+            return jobService.editJob(id, job);
+        }catch (InvalidFieldException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
+    }
+
     @DeleteMapping(value = "/job/{id}")
     public void deleteJob(@PathVariable int id) {
         jobService.deleteJob(id);

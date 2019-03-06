@@ -3,10 +3,12 @@ package com.example.gooddeedsbe.service;
 import com.example.gooddeedsbe.exceptions.InvalidFieldException;
 import com.example.gooddeedsbe.model.Job;
 import com.example.gooddeedsbe.repository.JobRepository;
+import com.example.gooddeedsbe.utils.JobHelper;
 import com.example.gooddeedsbe.utils.JobValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -27,19 +29,23 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Job createJob(Job job) throws InvalidFieldException {
-        JobValidator.validateTitle(job.getTitle());
-        JobValidator.validateCity(job.getCity());
-        JobValidator.validateContactPerson(job.getContactPerson());
-        JobValidator.validatePhoneNumber(job.getPhoneNumber());
-        JobValidator.validateEmail(job.getEmail());
-        JobValidator.validateOrganization(job.getOrganization());
-        JobValidator.validateDescription(job.getDescription());
-        JobValidator.validateTags(job.getTags());
+        JobHelper.validateJob(job);
         return jobRepository.save(job);
     }
 
     @Override
     public void deleteJob(int id) {
         jobRepository.deleteById(id);
+    }
+
+    @Override
+    public Job editJob(int id, Job newJob) throws InvalidFieldException {
+        try{
+            Job jobToUpdate = jobRepository.getOne(id);
+            JobHelper.validateJob(newJob);
+            return JobHelper.updateJob(jobToUpdate, newJob);
+        } catch (EntityNotFoundException ex){
+            throw new InvalidFieldException("Job not found with given ID");
+        }
     }
 }
