@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JobServiceImpl implements JobService {
@@ -40,12 +42,14 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Job editJob(int id, Job newJob) throws InvalidFieldException {
-        try{
-            Job jobToUpdate = jobRepository.getOne(id);
+        Optional<Job> jobToUpdate = jobRepository.findById(id);
+        if(jobToUpdate.isPresent()){
             JobHelper.validateJob(newJob);
-            return JobHelper.updateJob(jobToUpdate, newJob);
-        } catch (EntityNotFoundException ex){
+            newJob.setId(jobToUpdate.get().getId());
+            return jobRepository.save(newJob);
+        } else {
             throw new InvalidFieldException("Job not found with given ID");
         }
+
     }
 }

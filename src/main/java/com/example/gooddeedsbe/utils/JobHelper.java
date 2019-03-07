@@ -14,24 +14,4 @@ public class JobHelper {
         JobValidator.validateDescription(job.getDescription());
         JobValidator.validateTags(job.getTags());
     }
-
-    public static Job updateJob(Job oldJob, Job newJob){
-        if(newJob.getTitle() != null)
-            oldJob.setTitle(newJob.getTitle());
-        if(newJob.getCity() != null)
-            oldJob.setCity(newJob.getCity());
-        if(newJob.getContactPerson() != null)
-            oldJob.setContactPerson(newJob.getContactPerson());
-        if(newJob.getPhoneNumber() != null)
-            oldJob.setPhoneNumber(newJob.getPhoneNumber());
-        if(newJob.getEmail() != null)
-            oldJob.setEmail(newJob.getEmail());
-        if(newJob.getOrganization() != null)
-            oldJob.setOrganization(newJob.getOrganization());
-        if(newJob.getDescription() != null)
-            oldJob.setDescription(newJob.getDescription());
-        if(newJob.getTags() != null)
-            oldJob.setTags(newJob.getTags());
-        return oldJob;
-    }
 }
