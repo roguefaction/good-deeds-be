@@ -25,6 +25,16 @@ public class JobController {
         return jobService.getAllJobs();
     }
 
+    @GetMapping(value = "/job/{id}")
+    public Job getJobById(@PathVariable int id) {
+        try{
+            return jobService.getJobById(id);
+        }catch (InvalidFieldException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
+    }
+
     @PostMapping(value = "/job")
     public Job createJob(@RequestBody Job job) {
         try {

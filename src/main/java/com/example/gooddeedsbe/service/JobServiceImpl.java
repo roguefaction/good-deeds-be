@@ -30,6 +30,16 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    public Job getJobById(int id) throws InvalidFieldException{
+        Optional<Job> job = jobRepository.findById(id);
+        if(job.isPresent()){
+            return job.get();
+        } else {
+            throw new InvalidFieldException("Job not found with given ID");
+        }
+    }
+
+    @Override
     public Job createJob(Job job) throws InvalidFieldException {
         JobHelper.validateJob(job);
         return jobRepository.save(job);

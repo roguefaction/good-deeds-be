@@ -10,6 +10,8 @@ import java.util.List;
 public interface JobService {
     List<Job> getAllJobs();
 
+    Job getJobById(int id) throws InvalidFieldException;
+
     Job createJob(Job job) throws InvalidFieldException;
 
     void deleteJob(int id);
