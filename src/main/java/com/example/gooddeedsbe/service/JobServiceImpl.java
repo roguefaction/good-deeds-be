@@ -45,7 +45,7 @@ public class JobServiceImpl implements JobService {
         Optional<Job> jobToUpdate = jobRepository.findById(id);
         if(jobToUpdate.isPresent()){
             JobHelper.validateJob(newJob);
-            newJob.setId(jobToUpdate.get().getId());
+            newJob.setId(id);
             return jobRepository.save(newJob);
         } else {
             throw new InvalidFieldException("Job not found with given ID");
