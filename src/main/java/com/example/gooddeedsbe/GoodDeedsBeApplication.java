@@ -11,5 +11,4 @@ public class GoodDeedsBeApplication {
 		// test comment
 		SpringApplication.run(GoodDeedsBeApplication.class, args);
 	}
-//hellooo
 }

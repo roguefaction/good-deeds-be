@@ -5,7 +5,7 @@ import com.example.gooddeedsbe.exceptions.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class JobValidator {
+public class DeedValidator {
 
 
     private static Pattern pattern;
@@ -68,7 +68,7 @@ public class JobValidator {
     public static void validateEmail(String email) throws EmailInvalidException {
 
         if(StringValidator.checkIfNullOrWhitespace(email))
-            return;
+            throw new EmailInvalidException("Email must be entered");
 
         pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
         matcher = pattern.matcher(email);

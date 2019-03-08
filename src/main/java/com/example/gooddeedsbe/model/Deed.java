@@ -1,14 +1,20 @@
 package com.example.gooddeedsbe.model;
 
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "job")
-public class Job implements Serializable {
+@Table(name = "deed")
+public class Deed implements Serializable {
 
     @Id
-    @Column(name = "job_id")
+    @Column(name = "deed_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
