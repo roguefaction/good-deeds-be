@@ -28,16 +28,16 @@ public class DeedController {
         this.deedService = deedService;
     }
 
-    @GetMapping(value = "/deed")
+    @GetMapping(value = "/deeds")
     public List<Deed> getAllJobs() {
         return deedService.getAllDeeds();
     }
 
     @GetMapping(value = "/deed/{id}")
     public Deed getDeedById(@PathVariable int id) {
-        try{
+        try {
             return deedService.getDeedById(id);
-        }catch (InvalidFieldException ex) {
+        } catch (InvalidFieldException ex) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }
@@ -47,17 +47,17 @@ public class DeedController {
     public Deed createDeed(@RequestBody Deed deed) {
         try {
             return deedService.editDeed(deed);
-        }catch (InvalidFieldException ex){
+        } catch (InvalidFieldException ex) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }
     }
 
     @PutMapping(value = "/deed/{id}")
-    public Deed editDeed(@PathVariable int id, @RequestBody Deed deed){
-        try{
+    public Deed editDeed(@PathVariable int id, @RequestBody Deed deed) {
+        try {
             return deedService.editDeed(id, deed);
-        }catch (InvalidFieldException ex) {
+        } catch (InvalidFieldException ex) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }
