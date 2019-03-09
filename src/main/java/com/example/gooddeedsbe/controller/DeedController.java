@@ -18,7 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://good-deeds-fe.herokuapp.com")
 @RestController
 public class DeedController {
     private DeedService deedService;
