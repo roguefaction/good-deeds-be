@@ -53,8 +53,20 @@ public class DeedServiceImpl implements DeedService {
         Optional<Deed> deedToUpdate = deedRepository.findById(id);
         if (deedToUpdate.isPresent()) {
             DeedHelper.validateDeed(newDeed);
-            newDeed.setId(id);
-            return deedRepository.save(newDeed);
+            Deed newDeedWithId = new Deed.Builder(id)
+                    .title(newDeed.getTitle())
+                    .city(newDeed.getCity())
+                    .contactPerson(newDeed.getContactPerson())
+                    .phoneNumber(newDeed.getPhoneNumber())
+                    .email(newDeed.getEmail())
+                    .organization(newDeed.getOrganization())
+                    .maxPeople(newDeed.getMaxPeople())
+                    .currentPeople(newDeed.getCurrentPeople())
+                    .description(newDeed.getDescription())
+                    .tags(newDeed.getTags())
+                    .build();
+
+            return deedRepository.save(newDeedWithId);
         } else {
             throw new IdNotFoundException("Deed not found with given ID");
         }

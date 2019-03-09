@@ -13,6 +13,103 @@ import java.io.Serializable;
 @Table(name = "deed")
 public class Deed implements Serializable {
 
+    public static class Builder {
+
+        private int id;
+        private String title;
+        private String city;
+        private String contactPerson;
+        private String phoneNumber;
+        private String email;
+        private String organization;
+        private int maxPeople;
+        private int currentPeople;
+        private String description;
+        private String tags;
+
+        public Builder(int id) {
+            this.id = id;
+        }
+
+        public Builder title(String title) {
+            this.title = title;
+
+            return this;
+        }
+
+        public Builder city(String city) {
+            this.city = city;
+
+            return this;
+        }
+
+        public Builder contactPerson(String contactPerson) {
+            this.contactPerson = contactPerson;
+
+            return this;
+        }
+
+        public Builder phoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+
+            return this;
+        }
+
+        public Builder organization(String organization) {
+            this.organization = organization;
+
+            return this;
+        }
+
+        public Builder maxPeople(int maxPeople) {
+            this.maxPeople = maxPeople;
+
+            return this;
+        }
+
+        public Builder currentPeople(int currentPeople) {
+            this.currentPeople = currentPeople;
+
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+
+            return this;
+        }
+
+        public Builder description(String description) {
+            this.description = description;
+
+            return this;
+        }
+
+        public Builder tags(String tags) {
+            this.tags = tags;
+
+            return this;
+        }
+
+        public Deed build() {
+            Deed deed = new Deed();
+            deed.city = this.city;
+            deed.contactPerson = this.contactPerson;
+            deed.currentPeople = this.currentPeople;
+            deed.description = this.description;
+            deed.email = this.email;
+            deed.id = this.id;
+            deed.maxPeople = this.maxPeople;
+            deed.organization = this.organization;
+            deed.phoneNumber = this.phoneNumber;
+            deed.tags = this.tags;
+            deed.title = this.title;
+
+            return deed;
+        }
+
+    }
+
     @Id
     @Column(name = "deed_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,91 +145,51 @@ public class Deed implements Serializable {
     @Column(name = "tags")
     private String tags;
 
-    public int getId() {
-        return id;
+    private Deed(){
+
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getCity() {
         return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getContactPerson() {
         return contactPerson;
     }
 
-    public void setContactPerson(String contactPerson) {
-        this.contactPerson = contactPerson;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getOrganization() {
         return organization;
-    }
-
-    public void setOrganization(String organization) {
-        this.organization = organization;
     }
 
     public int getMaxPeople() {
         return maxPeople;
     }
 
-    public void setMaxPeople(int maxPeople) {
-        this.maxPeople = maxPeople;
-    }
-
     public int getCurrentPeople() {
         return currentPeople;
-    }
-
-    public void setCurrentPeople(int currentPeople) {
-        this.currentPeople = currentPeople;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getTags() {
         return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
     }
 }
