@@ -1,6 +1,5 @@
 package com.example.gooddeeds.service;
 
-import com.example.gooddeeds.exceptions.IdNotFoundException;
 import com.example.gooddeeds.exceptions.InvalidFieldException;
 import com.example.gooddeeds.model.Deed;
 import com.example.gooddeeds.repository.DeedRepository;
@@ -16,6 +15,7 @@ import java.util.Optional;
 @Service
 public class DeedServiceImpl implements DeedService {
 
+    private static final String ID_NOT_FOUND = "Deed not found with given ID";
 
     private DeedRepository deedRepository;
 
@@ -35,7 +35,7 @@ public class DeedServiceImpl implements DeedService {
         if (deed.isPresent()) {
             return deed.get();
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Deed not found with given ID");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ID_NOT_FOUND);
         }
     }
 
@@ -55,7 +55,7 @@ public class DeedServiceImpl implements DeedService {
         if (deed.isPresent()) {
             deedRepository.deleteById(id);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Deed not found with given ID");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ID_NOT_FOUND);
         }
     }
 
@@ -82,7 +82,7 @@ public class DeedServiceImpl implements DeedService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
             }
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Deed not found with given ID");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ID_NOT_FOUND);
         }
     }
 }
