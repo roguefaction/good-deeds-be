@@ -6,7 +6,9 @@ import com.example.gooddeeds.model.Deed;
 import com.example.gooddeeds.repository.DeedRepository;
 import com.example.gooddeeds.utils.DeedValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,48 +30,59 @@ public class DeedServiceImpl implements DeedService {
     }
 
     @Override
-    public Deed getDeedById(int id) throws IdNotFoundException {
+    public Deed getDeedById(int id) {
         Optional<Deed> deed = deedRepository.findById(id);
         if (deed.isPresent()) {
             return deed.get();
         } else {
-            throw new IdNotFoundException("Deed not found with given ID");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Deed not found with given ID");
         }
     }
 
     @Override
-    public Deed createDeed(Deed deed) throws InvalidFieldException {
-        DeedValidator.validateDeed(deed);
+    public Deed createDeed(Deed deed) {
+        try {
+            DeedValidator.validateDeed(deed);
+        } catch (InvalidFieldException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
+        }
         return deedRepository.save(deed);
     }
 
     @Override
     public void deleteDeed(int id) {
-        deedRepository.deleteById(id);
+        Optional<Deed> deed = deedRepository.findById(id);
+        if (deed.isPresent()) {
+            deedRepository.deleteById(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Deed not found with given ID");
+        }
     }
 
     @Override
-    public Deed editDeed(int id, Deed newDeed) throws IdNotFoundException, InvalidFieldException {
+    public Deed editDeed(int id, Deed newDeed) {
         Optional<Deed> deedToUpdate = deedRepository.findById(id);
         if (deedToUpdate.isPresent()) {
-            DeedValidator.validateDeed(newDeed);
-            Deed newDeedWithId = new Deed.Builder(id)
-                    .title(newDeed.getTitle())
-                    .city(newDeed.getCity())
-                    .contactPerson(newDeed.getContactPerson())
-                    .phoneNumber(newDeed.getPhoneNumber())
-                    .email(newDeed.getEmail())
-                    .organization(newDeed.getOrganization())
-                    .maxPeople(newDeed.getMaxPeople())
-                    .currentPeople(newDeed.getCurrentPeople())
-                    .description(newDeed.getDescription())
-                    .tags(newDeed.getTags())
-                    .build();
-
-            return deedRepository.save(newDeedWithId);
+            try {
+                DeedValidator.validateDeed(newDeed);
+                Deed newDeedWithId = new Deed.Builder(id)
+                        .title(newDeed.getTitle())
+                        .city(newDeed.getCity())
+                        .contactPerson(newDeed.getContactPerson())
+                        .phoneNumber(newDeed.getPhoneNumber())
+                        .email(newDeed.getEmail())
+                        .organization(newDeed.getOrganization())
+                        .maxPeople(newDeed.getMaxPeople())
+                        .currentPeople(newDeed.getCurrentPeople())
+                        .description(newDeed.getDescription())
+                        .tags(newDeed.getTags())
+                        .build();
+                return deedRepository.save(newDeedWithId);
+            } catch (InvalidFieldException ex) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
+            }
         } else {
-            throw new IdNotFoundException("Deed not found with given ID");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Deed not found with given ID");
         }
-
     }
 }

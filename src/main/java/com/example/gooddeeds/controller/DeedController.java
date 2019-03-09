@@ -1,7 +1,5 @@
 package com.example.gooddeeds.controller;
 
-import com.example.gooddeeds.exceptions.IdNotFoundException;
-import com.example.gooddeeds.exceptions.InvalidFieldException;
 import com.example.gooddeeds.model.Deed;
 import com.example.gooddeeds.service.DeedService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -36,40 +33,24 @@ public class DeedController {
 
     @GetMapping(value = "/deed/{id}")
     public Deed getDeedById(@PathVariable int id) {
-        try {
-            return deedService.getDeedById(id);
-        } catch (IdNotFoundException ex) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Deed not found with given ID");
-        }
+        return deedService.getDeedById(id);
     }
 
     @PostMapping(value = "/deed")
     public Deed createDeed(@RequestBody Deed deed) {
-        try {
-            return deedService.createDeed(deed);
-        } catch (InvalidFieldException ex) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, ex.getMessage());
-        }
+        return deedService.createDeed(deed);
     }
+
 
     @PutMapping(value = "/deed/{id}")
     public Deed editDeed(@PathVariable int id, @RequestBody Deed deed) {
-        try {
-            return deedService.editDeed(id, deed);
-        } catch (IdNotFoundException ex) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, ex.getMessage());
-        } catch (InvalidFieldException ex) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, ex.getMessage());
-        }
+        return deedService.editDeed(id, deed);
     }
 
     @DeleteMapping(value = "/deed/{id}")
-    public void deleteJob(@PathVariable int id) {
+    public HttpStatus deleteDeed(@PathVariable int id) {
         deedService.deleteDeed(id);
+        return HttpStatus.OK;
     }
 
 
