@@ -1,10 +1,10 @@
-package com.example.gooddeedsbe.service;
+package com.example.gooddeeds.service;
 
-import com.example.gooddeedsbe.exceptions.IdNotFoundException;
-import com.example.gooddeedsbe.exceptions.InvalidFieldException;
-import com.example.gooddeedsbe.model.Deed;
-import com.example.gooddeedsbe.repository.DeedRepository;
-import com.example.gooddeedsbe.utils.DeedHelper;
+import com.example.gooddeeds.exceptions.IdNotFoundException;
+import com.example.gooddeeds.exceptions.InvalidFieldException;
+import com.example.gooddeeds.model.Deed;
+import com.example.gooddeeds.repository.DeedRepository;
+import com.example.gooddeeds.utils.DeedValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +39,7 @@ public class DeedServiceImpl implements DeedService {
 
     @Override
     public Deed createDeed(Deed deed) throws InvalidFieldException {
-        DeedHelper.validateDeed(deed);
+        DeedValidator.validateDeed(deed);
         return deedRepository.save(deed);
     }
 
@@ -52,7 +52,7 @@ public class DeedServiceImpl implements DeedService {
     public Deed editDeed(int id, Deed newDeed) throws IdNotFoundException, InvalidFieldException {
         Optional<Deed> deedToUpdate = deedRepository.findById(id);
         if (deedToUpdate.isPresent()) {
-            DeedHelper.validateDeed(newDeed);
+            DeedValidator.validateDeed(newDeed);
             Deed newDeedWithId = new Deed.Builder(id)
                     .title(newDeed.getTitle())
                     .city(newDeed.getCity())

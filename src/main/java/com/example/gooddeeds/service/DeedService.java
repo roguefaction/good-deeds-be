@@ -1,8 +1,8 @@
-package com.example.gooddeedsbe.service;
+package com.example.gooddeeds.service;
 
-import com.example.gooddeedsbe.exceptions.IdNotFoundException;
-import com.example.gooddeedsbe.exceptions.InvalidFieldException;
-import com.example.gooddeedsbe.model.Deed;
+import com.example.gooddeeds.exceptions.IdNotFoundException;
+import com.example.gooddeeds.exceptions.InvalidFieldException;
+import com.example.gooddeeds.model.Deed;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

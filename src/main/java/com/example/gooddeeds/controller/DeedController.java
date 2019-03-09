@@ -1,9 +1,9 @@
-package com.example.gooddeedsbe.controller;
+package com.example.gooddeeds.controller;
 
-import com.example.gooddeedsbe.exceptions.IdNotFoundException;
-import com.example.gooddeedsbe.exceptions.InvalidFieldException;
-import com.example.gooddeedsbe.model.Deed;
-import com.example.gooddeedsbe.service.DeedService;
+import com.example.gooddeeds.exceptions.IdNotFoundException;
+import com.example.gooddeeds.exceptions.InvalidFieldException;
+import com.example.gooddeeds.model.Deed;
+import com.example.gooddeeds.service.DeedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
@@ -62,7 +62,8 @@ public class DeedController {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, ex.getMessage());
         } catch (InvalidFieldException ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, ex.getMessage());
         }
     }
 

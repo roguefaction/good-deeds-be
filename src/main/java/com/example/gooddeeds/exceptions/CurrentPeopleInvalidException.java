@@ -1,4 +1,4 @@
-package com.example.gooddeedsbe.exceptions;
+package com.example.gooddeeds.exceptions;
 
 public class CurrentPeopleInvalidException extends InvalidFieldException {
 

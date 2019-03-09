@@ -1,7 +1,7 @@
-package com.example.gooddeedsbe;
+package com.example.gooddeeds;
 
-import com.example.gooddeedsbe.exceptions.*;
-import com.example.gooddeedsbe.utils.DeedValidator;
+import com.example.gooddeeds.exceptions.*;
+import com.example.gooddeeds.utils.DeedValidator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,10 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DeedValidatorTests {
-
-	@Test
-	public void contextLoads() {
-	}
 
 	@Test(expected = TitleInvalidException.class)
 	public void check_if_title_valid_should_fail_too_short() throws TitleInvalidException{

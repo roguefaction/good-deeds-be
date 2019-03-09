@@ -1,4 +1,4 @@
-package com.example.gooddeedsbe.model;
+package com.example.gooddeeds.model;
 
 
 import javax.persistence.Column;

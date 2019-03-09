@@ -1,6 +1,8 @@
-package com.example.gooddeedsbe.utils;
+package com.example.gooddeeds.utils;
 
-import com.example.gooddeedsbe.exceptions.*;
+import com.example.gooddeeds.exceptions.*;
+import com.example.gooddeeds.model.Deed;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,22 +22,21 @@ public class DeedValidator {
 
     public static void validateTitle(String title) throws TitleInvalidException {
 
-        if(title == null){
+        if(title == null || title.trim().length() == 0){
             throw new TitleInvalidException("Title can't be empty");
         }
 
-        if(title.trim().length() == 0){
-            throw new TitleInvalidException("Title can't be whitespace");
-        }
         if (title.length() < 5 || title.length() > 50) {
             throw new TitleInvalidException("Title must be between 5 and 50 characters long");
         }
     }
 
 
+
     public static void validateOrganization(String organization) throws OrganizationInvalidException {
-        if(StringValidator.checkIfNullOrWhitespace(organization))
+        if(StringUtils.isBlank(organization)){
             return;
+        }
 
         if (organization.length() < 5 || organization.length() > 50) {
             throw new OrganizationInvalidException("Organization name must be between 5 and 50 characters long");
@@ -44,14 +45,9 @@ public class DeedValidator {
 
     public static void validateCity(String city) throws CityInvalidException {
 
-        if(city == null){
+        if(city == null || city.trim().length() == 0){
             throw new CityInvalidException("City can't be empty");
         }
-
-        if(city.trim().length() == 0){
-            throw new CityInvalidException("City can't be whitespace");
-        }
-
 
         pattern = Pattern.compile(LETTER_AND_SPACES_REGEX, Pattern.CASE_INSENSITIVE);
         matcher = pattern.matcher(city);
@@ -67,7 +63,7 @@ public class DeedValidator {
 
     public static void validateEmail(String email) throws EmailInvalidException {
 
-        if(StringValidator.checkIfNullOrWhitespace(email))
+        if(StringUtils.isBlank(email))
             throw new EmailInvalidException("Email must be entered");
 
         pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
@@ -99,8 +95,9 @@ public class DeedValidator {
 
     public static void validatePhoneNumber(String phoneNumber) throws PhoneNumberInvalidException {
 
-        if(StringValidator.checkIfNullOrWhitespace(phoneNumber))
-            return;
+        if(StringUtils.isBlank(phoneNumber))
+            throw new PhoneNumberInvalidException("Phone number field must not be empty");
+
 
         pattern = Pattern.compile(PHONE_NUMBER_REGEX, Pattern.CASE_INSENSITIVE);
         matcher = pattern.matcher(phoneNumber);
@@ -112,7 +109,7 @@ public class DeedValidator {
 
     public static void validateDescription(String description) throws DescriptionInvalidException {
 
-        if(StringValidator.checkIfNullOrWhitespace(description))
+        if(StringUtils.isBlank(description))
             return;
 
         if (description.length() > 500) {
@@ -122,7 +119,7 @@ public class DeedValidator {
 
     public static void validateTags(String tagString) throws TagInvalidException {
 
-        if(StringValidator.checkIfNullOrWhitespace(tagString))
+        if(StringUtils.isBlank(tagString))
             return;
 
         if (tagString.length() > 500) {
@@ -153,5 +150,16 @@ public class DeedValidator {
                 throw new TagInvalidException("Tags must be valid");
             }
         }
+    }
+
+    public static void validateDeed(Deed deed) throws InvalidFieldException {
+        DeedValidator.validateTitle(deed.getTitle());
+        DeedValidator.validateCity(deed.getCity());
+        DeedValidator.validateContactPerson(deed.getContactPerson());
+        DeedValidator.validatePhoneNumber(deed.getPhoneNumber());
+        DeedValidator.validateEmail(deed.getEmail());
+        DeedValidator.validateOrganization(deed.getOrganization());
+        DeedValidator.validateDescription(deed.getDescription());
+        DeedValidator.validateTags(deed.getTags());
     }
 }
