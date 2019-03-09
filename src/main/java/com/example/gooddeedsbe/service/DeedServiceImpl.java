@@ -1,5 +1,6 @@
 package com.example.gooddeedsbe.service;
 
+import com.example.gooddeedsbe.exceptions.IdNotFoundException;
 import com.example.gooddeedsbe.exceptions.InvalidFieldException;
 import com.example.gooddeedsbe.model.Deed;
 import com.example.gooddeedsbe.repository.DeedRepository;
@@ -27,17 +28,17 @@ public class DeedServiceImpl implements DeedService {
     }
 
     @Override
-    public Deed getDeedById(int id) throws InvalidFieldException {
+    public Deed getDeedById(int id) throws IdNotFoundException {
         Optional<Deed> deed = deedRepository.findById(id);
         if (deed.isPresent()) {
             return deed.get();
         } else {
-            throw new InvalidFieldException("Deed not found with given ID");
+            throw new IdNotFoundException("Deed not found with given ID");
         }
     }
 
     @Override
-    public Deed editDeed(Deed deed) throws InvalidFieldException {
+    public Deed createDeed(Deed deed) throws InvalidFieldException {
         DeedHelper.validateDeed(deed);
         return deedRepository.save(deed);
     }
@@ -48,14 +49,14 @@ public class DeedServiceImpl implements DeedService {
     }
 
     @Override
-    public Deed editDeed(int id, Deed newDeed) throws InvalidFieldException {
+    public Deed editDeed(int id, Deed newDeed) throws IdNotFoundException, InvalidFieldException {
         Optional<Deed> deedToUpdate = deedRepository.findById(id);
         if (deedToUpdate.isPresent()) {
             DeedHelper.validateDeed(newDeed);
             newDeed.setId(id);
             return deedRepository.save(newDeed);
         } else {
-            throw new InvalidFieldException("Deed not found with given ID");
+            throw new IdNotFoundException("Deed not found with given ID");
         }
 
     }

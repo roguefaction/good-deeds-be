@@ -1,5 +1,6 @@
 package com.example.gooddeedsbe.controller;
 
+import com.example.gooddeedsbe.exceptions.IdNotFoundException;
 import com.example.gooddeedsbe.exceptions.InvalidFieldException;
 import com.example.gooddeedsbe.model.Deed;
 import com.example.gooddeedsbe.service.DeedService;
@@ -37,19 +38,19 @@ public class DeedController {
     public Deed getDeedById(@PathVariable int id) {
         try {
             return deedService.getDeedById(id);
-        } catch (InvalidFieldException ex) {
+        } catch (IdNotFoundException ex) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+                    HttpStatus.NOT_FOUND, "Deed not found with given ID");
         }
     }
 
     @PostMapping(value = "/deed")
     public Deed createDeed(@RequestBody Deed deed) {
         try {
-            return deedService.editDeed(deed);
+            return deedService.createDeed(deed);
         } catch (InvalidFieldException ex) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+                    HttpStatus.BAD_REQUEST, ex.getMessage());
         }
     }
 
@@ -57,9 +58,11 @@ public class DeedController {
     public Deed editDeed(@PathVariable int id, @RequestBody Deed deed) {
         try {
             return deedService.editDeed(id, deed);
-        } catch (InvalidFieldException ex) {
+        } catch (IdNotFoundException ex) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+                    HttpStatus.NOT_FOUND, ex.getMessage());
+        } catch (InvalidFieldException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
         }
     }
 
