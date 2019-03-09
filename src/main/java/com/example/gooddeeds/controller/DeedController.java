@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
-@CrossOrigin(origins = "https://good-deeds-fe.herokuapp.com")
+@CrossOrigin(origins = "*")
 @RestController
 public class DeedController {
     private DeedService deedService;
