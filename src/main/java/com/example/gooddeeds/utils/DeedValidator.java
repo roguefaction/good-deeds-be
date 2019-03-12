@@ -16,7 +16,7 @@ public class DeedValidator {
     private static final String PHONE_NUMBER_REGEX = "^\\+370[0-9]{8}";
     private static final String HASHTAG_REGEX_1 = ".*,$";
     private static final String HASHTAG_REGEX_2 = "#[A-Za-z0-9\\-\\.\\_]+";
-    private static final String LETTER_AND_SPACES_REGEX = "^[A-Za-z ]+$";
+    private static final String LETTER_AND_SPACES_REGEX = "[^\\x00-\\x7F]*[a-zA-Z\\s]*";
 
 
     public static void validateTitle(String title) throws TitleInvalidException {
