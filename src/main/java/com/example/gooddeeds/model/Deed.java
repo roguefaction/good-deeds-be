@@ -13,11 +13,13 @@ import java.io.Serializable;
 @Table(name = "deed")
 public class Deed implements Serializable {
 
+
     public static class Builder {
 
         private int id;
         private String title;
         private String city;
+        private String date;
         private String contactPerson;
         private String phoneNumber;
         private String email;
@@ -39,6 +41,12 @@ public class Deed implements Serializable {
 
         public Builder city(String city) {
             this.city = city;
+
+            return this;
+        }
+
+        public Builder date(String date) {
+            this.date = date;
 
             return this;
         }
@@ -94,6 +102,7 @@ public class Deed implements Serializable {
         public Deed build() {
             Deed deed = new Deed();
             deed.city = this.city;
+            deed.date = this.date;
             deed.contactPerson = this.contactPerson;
             deed.currentPeople = this.currentPeople;
             deed.description = this.description;
@@ -120,6 +129,9 @@ public class Deed implements Serializable {
 
     @Column(name = "city")
     private String city;
+
+    @Column(name = "date")
+    private String date;
 
     @Column(name = "contact_person")
     private String contactPerson;
@@ -192,4 +204,9 @@ public class Deed implements Serializable {
     public String getTags() {
         return tags;
     }
+
+    public String getDate() {
+        return date;
+    }
+
 }

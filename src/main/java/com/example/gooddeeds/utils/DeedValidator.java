@@ -4,6 +4,9 @@ import com.example.gooddeeds.exceptions.*;
 import com.example.gooddeeds.model.Deed;
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,12 +19,13 @@ public class DeedValidator {
     private static final String PHONE_NUMBER_REGEX = "^\\+370[0-9]{8}";
     private static final String HASHTAG_REGEX_1 = ".*,$";
     private static final String HASHTAG_REGEX_2 = "#[A-Za-z0-9\\-\\.\\_]+";
-    private static final String LETTER_AND_SPACES_REGEX = "[^\\x00-\\x7F]*[a-zA-Z\\s]*";
+    private static final String LETTER_AND_SPACES_REGEX = "([^\\x00-\\x7F]*[a-zA-Z\\s]*)*";
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
 
 
     public static void validateTitle(String title) throws TitleInvalidException {
 
-        if(title == null || title.trim().length() == 0){
+        if (title == null || title.trim().length() == 0) {
             throw new TitleInvalidException("Title can't be empty");
         }
 
@@ -31,9 +35,8 @@ public class DeedValidator {
     }
 
 
-
     public static void validateOrganization(String organization) throws OrganizationInvalidException {
-        if(StringUtils.isBlank(organization)){
+        if (StringUtils.isBlank(organization)) {
             return;
         }
 
@@ -44,7 +47,7 @@ public class DeedValidator {
 
     public static void validateCity(String city) throws CityInvalidException {
 
-        if(city == null || city.trim().length() == 0){
+        if (city == null || city.trim().length() == 0) {
             throw new CityInvalidException("City can't be empty");
         }
 
@@ -60,9 +63,25 @@ public class DeedValidator {
         }
     }
 
+    public static void validateDate(String date) throws DateInvalidException {
+
+        if (date == null) {
+            throw new DateInvalidException("Date must be entered");
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        sdf.setLenient(false);
+
+        try {
+            sdf.parse(date);
+        } catch (ParseException e) {
+            throw new DateInvalidException("Date must be valid");
+        }
+    }
+
     public static void validateEmail(String email) throws EmailInvalidException {
 
-        if(StringUtils.isBlank(email))
+        if (StringUtils.isBlank(email))
             throw new EmailInvalidException("Email must be entered");
 
         pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
@@ -75,11 +94,11 @@ public class DeedValidator {
 
     public static void validateContactPerson(String contactPerson) throws ContactPersonInvalidException {
 
-        if(contactPerson == null){
+        if (contactPerson == null) {
             throw new ContactPersonInvalidException("Contact person field can't be empty");
         }
 
-        if(contactPerson.trim().length() == 0){
+        if (contactPerson.trim().length() == 0) {
             throw new ContactPersonInvalidException("Contact person field can't be whitespace");
         }
 
@@ -94,7 +113,7 @@ public class DeedValidator {
 
     public static void validatePhoneNumber(String phoneNumber) throws PhoneNumberInvalidException {
 
-        if(StringUtils.isBlank(phoneNumber))
+        if (StringUtils.isBlank(phoneNumber))
             throw new PhoneNumberInvalidException("Phone number field must not be empty");
 
 
@@ -108,7 +127,7 @@ public class DeedValidator {
 
     public static void validateDescription(String description) throws DescriptionInvalidException {
 
-        if(StringUtils.isBlank(description))
+        if (StringUtils.isBlank(description))
             return;
 
         if (description.length() > 500) {
@@ -118,7 +137,7 @@ public class DeedValidator {
 
     public static void validateTags(String tagString) throws TagInvalidException {
 
-        if(StringUtils.isBlank(tagString))
+        if (StringUtils.isBlank(tagString))
             return;
 
         if (tagString.length() > 500) {
@@ -154,6 +173,7 @@ public class DeedValidator {
     public static void validateDeed(Deed deed) throws InvalidFieldException {
         DeedValidator.validateTitle(deed.getTitle());
         DeedValidator.validateCity(deed.getCity());
+        DeedValidator.validateDate(deed.getDate());
         DeedValidator.validateContactPerson(deed.getContactPerson());
         DeedValidator.validatePhoneNumber(deed.getPhoneNumber());
         DeedValidator.validateEmail(deed.getEmail());

@@ -89,7 +89,7 @@ public class DeedValidatorTests {
 
 	@Test
 	public void check_if_city_valid_should_pass_0() throws CityInvalidException{
-		String city = "siauliai";
+		String city = "šiauliai";
 		DeedValidator.validateCity(city);
 	}
 
@@ -241,6 +241,36 @@ public class DeedValidatorTests {
 	public void check_if_tags_valid_should_pass_2 () throws TagInvalidException {
 		String tags = "#asdasd,#dwwdawdwd,#asdasd,#dwwdawdwddawdwfeagsrgsge";
 		DeedValidator.validateTags(tags);
+	}
+
+	@Test
+	public void check_if_date_valid_should_pass_0 () throws DateInvalidException {
+		String date = "2018-01-01";
+		DeedValidator.validateDate(date);
+	}
+
+	@Test
+	public void check_if_date_valid_should_pass_1 () throws DateInvalidException {
+		String date = "1998-05-08";
+		DeedValidator.validateDate(date);
+	}
+
+	@Test(expected = DateInvalidException.class)
+	public void check_if_date_valid_should_fail_1 () throws DateInvalidException {
+		String date = "05-08-1997";
+		DeedValidator.validateDate(date);
+	}
+
+	@Test(expected = DateInvalidException.class)
+	public void check_if_date_valid_should_fail_2 () throws DateInvalidException {
+		String date = "sadasdasdasd";
+		DeedValidator.validateDate(date);
+	}
+
+	@Test(expected = DateInvalidException.class)
+	public void check_if_date_valid_should_fail_3 () throws DateInvalidException {
+		String date = "1997-mm-20";
+		DeedValidator.validateDate(date);
 	}
 
 }

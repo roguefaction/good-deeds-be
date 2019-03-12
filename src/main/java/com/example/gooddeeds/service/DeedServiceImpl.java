@@ -68,6 +68,7 @@ public class DeedServiceImpl implements DeedService {
                 Deed newDeedWithId = new Deed.Builder(id)
                         .title(newDeed.getTitle())
                         .city(newDeed.getCity())
+                        .date(newDeed.getDate())
                         .contactPerson(newDeed.getContactPerson())
                         .phoneNumber(newDeed.getPhoneNumber())
                         .email(newDeed.getEmail())
