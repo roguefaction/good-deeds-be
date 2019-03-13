@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.text.ParseException;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -53,5 +54,9 @@ public class DeedController {
         return HttpStatus.OK;
     }
 
+    @GetMapping(value = "/upcomingdeeds")
+    public List<Deed> getUpcommingDeeds() throws ParseException {
+        return deedService.getUpcomingDeeds();
+    }
 
 }

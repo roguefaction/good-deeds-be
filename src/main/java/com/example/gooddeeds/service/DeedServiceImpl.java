@@ -9,8 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 @Service
 public class DeedServiceImpl implements DeedService {
@@ -40,6 +44,25 @@ public class DeedServiceImpl implements DeedService {
     }
 
     @Override
+    public List<Deed> getUpcomingDeeds() throws ParseException {
+
+        List<Deed> orderedDeeds = deedRepository.findAllByOrderByDateAsc();
+
+        Iterator<Deed> deedIterator = orderedDeeds.iterator();
+
+        Date currentDate = new Date();
+
+        while (deedIterator.hasNext()) {
+            Deed currentDeed = deedIterator.next();
+            Date deedDate = new SimpleDateFormat("yyyy-MM-dd").parse(currentDeed.getDate());
+            if (deedDate.compareTo(currentDate) < 0)
+                deedIterator.remove();
+        }
+
+        return new ArrayList<>(orderedDeeds.subList(0, 3));
+    }
+
+    @Override
     public Deed createDeed(Deed deed) {
         try {
             DeedValidator.validateDeed(deed);
@@ -48,6 +71,7 @@ public class DeedServiceImpl implements DeedService {
         }
         return deedRepository.save(deed);
     }
+
 
     @Override
     public void deleteDeed(int id) {
