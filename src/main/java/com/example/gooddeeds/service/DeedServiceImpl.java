@@ -44,7 +44,7 @@ public class DeedServiceImpl implements DeedService {
     @Override
     public List<Deed> getUpcomingDeeds() throws ParseException {
 
-        List<Deed> orderedDeeds = deedRepository.findAllByOrderByDateAsc();
+        List<Deed> orderedDeeds = deedRepository.findAllByOrderByDeedDateAsc();
 
         Iterator<Deed> deedIterator = orderedDeeds.iterator();
 

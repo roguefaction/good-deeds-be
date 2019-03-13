@@ -130,7 +130,7 @@ public class Deed implements Serializable {
     @Column(name = "city")
     private String city;
 
-    @Column(name = "deedDate")
+    @Column(name = "date")
     private String deedDate;
 
     @Column(name = "contact_person")
