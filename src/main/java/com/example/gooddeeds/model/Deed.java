@@ -19,7 +19,7 @@ public class Deed implements Serializable {
         private int id;
         private String title;
         private String city;
-        private String deedDate;
+        private String date;
         private String contactPerson;
         private String phoneNumber;
         private String email;
@@ -45,8 +45,8 @@ public class Deed implements Serializable {
             return this;
         }
 
-        public Builder deedDate(String date) {
-            this.deedDate = date;
+        public Builder date(String date) {
+            this.date = date;
 
             return this;
         }
@@ -102,7 +102,7 @@ public class Deed implements Serializable {
         public Deed build() {
             Deed deed = new Deed();
             deed.city = this.city;
-            deed.deedDate = this.deedDate;
+            deed.date = this.date;
             deed.contactPerson = this.contactPerson;
             deed.currentPeople = this.currentPeople;
             deed.description = this.description;
@@ -130,8 +130,8 @@ public class Deed implements Serializable {
     @Column(name = "city")
     private String city;
 
-    @Column(name = "deedDate")
-    private String deedDate;
+    @Column(name = "date")
+    private String date;
 
     @Column(name = "contact_person")
     private String contactPerson;
@@ -205,8 +205,8 @@ public class Deed implements Serializable {
         return tags;
     }
 
-    public String getDeedDate() {
-        return deedDate;
+    public String getDate() {
+        return date;
     }
 
 }
