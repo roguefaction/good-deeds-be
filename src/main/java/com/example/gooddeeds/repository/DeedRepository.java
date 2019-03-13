@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface DeedRepository extends JpaRepository<Deed, Integer> {
     public List<Deed> findAllByOrderByIdDesc();
-    public List<Deed> findAllByOrderByDeedDateAsc();
+    public List<Deed> findAllByOrderByDateAsc();
 }
