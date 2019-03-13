@@ -172,7 +172,7 @@ public class DeedValidator {
     public static void validateDeed(Deed deed) throws InvalidFieldException {
         DeedValidator.validateTitle(deed.getTitle());
         DeedValidator.validateCity(deed.getCity());
-        DeedValidator.validateDate(deed.getDate());
+        DeedValidator.validateDate(deed.getDeedDate());
         DeedValidator.validateContactPerson(deed.getContactPerson());
         DeedValidator.validatePhoneNumber(deed.getPhoneNumber());
         DeedValidator.validateEmail(deed.getEmail());

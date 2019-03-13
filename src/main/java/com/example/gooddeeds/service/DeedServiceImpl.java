@@ -14,8 +14,6 @@ import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 @Service
 public class DeedServiceImpl implements DeedService {
 
@@ -54,7 +52,7 @@ public class DeedServiceImpl implements DeedService {
 
         while (deedIterator.hasNext()) {
             Deed currentDeed = deedIterator.next();
-            Date deedDate = new SimpleDateFormat("yyyy-MM-dd").parse(currentDeed.getDate());
+            Date deedDate = new SimpleDateFormat("yyyy-MM-dd").parse(currentDeed.getDeedDate());
             if (deedDate.compareTo(currentDate) < 0)
                 deedIterator.remove();
         }
@@ -92,7 +90,7 @@ public class DeedServiceImpl implements DeedService {
                 Deed newDeedWithId = new Deed.Builder(id)
                         .title(newDeed.getTitle())
                         .city(newDeed.getCity())
-                        .date(newDeed.getDate())
+                        .deedDate(newDeed.getDeedDate())
                         .contactPerson(newDeed.getContactPerson())
                         .phoneNumber(newDeed.getPhoneNumber())
                         .email(newDeed.getEmail())

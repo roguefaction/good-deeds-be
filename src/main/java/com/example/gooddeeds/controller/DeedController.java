@@ -42,7 +42,6 @@ public class DeedController {
         return deedService.createDeed(deed);
     }
 
-
     @PutMapping(value = "/deed/{id}")
     public Deed editDeed(@PathVariable int id, @RequestBody Deed deed) {
         return deedService.editDeed(id, deed);
