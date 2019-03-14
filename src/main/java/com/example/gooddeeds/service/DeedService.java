@@ -19,4 +19,6 @@ public interface DeedService {
     Deed editDeed(int id, Deed deed);
 
     List<Deed> getUpcomingDeeds() throws ParseException;
+
+    List<Deed> getAllUpcomingDeeds() throws ParseException;
 }

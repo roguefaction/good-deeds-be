@@ -14,7 +14,6 @@ import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import org.apache.commons.lang3.ArrayUtils;
 
 @Service
 public class DeedServiceImpl implements DeedService {
@@ -45,21 +44,16 @@ public class DeedServiceImpl implements DeedService {
 
     @Override
     public List<Deed> getUpcomingDeeds() throws ParseException {
-
         List<Deed> orderedDeeds = deedRepository.findAllByOrderByDateAsc();
 
-        Iterator<Deed> deedIterator = orderedDeeds.iterator();
+        return new ArrayList<>(currentDateFilter(orderedDeeds).subList(0, 3));
+    }
 
-        Date currentDate = new Date();
+    @Override
+    public List<Deed> getAllUpcomingDeeds() throws ParseException {
+        List<Deed> orderedDeeds = deedRepository.findAllByOrderByDateAsc();
 
-        while (deedIterator.hasNext()) {
-            Deed currentDeed = deedIterator.next();
-            Date deedDate = new SimpleDateFormat("yyyy-MM-dd").parse(currentDeed.getDate());
-            if (deedDate.compareTo(currentDate) < 0)
-                deedIterator.remove();
-        }
-
-        return new ArrayList<>(orderedDeeds.subList(0, 3));
+        return currentDateFilter(orderedDeeds);
     }
 
     @Override
@@ -109,5 +103,21 @@ public class DeedServiceImpl implements DeedService {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ID_NOT_FOUND);
         }
+    }
+
+    private List<Deed> currentDateFilter(List<Deed> listToFilter) throws ParseException {
+
+        Iterator<Deed> deedIterator = listToFilter.iterator();
+
+        Date currentDate = new Date();
+
+        while (deedIterator.hasNext()) {
+            Deed currentDeed = deedIterator.next();
+            Date deedDate = new SimpleDateFormat("yyyy-MM-dd").parse(currentDeed.getDate());
+            if (deedDate.compareTo(currentDate) < 0)
+                deedIterator.remove();
+        }
+
+        return listToFilter;
     }
 }
