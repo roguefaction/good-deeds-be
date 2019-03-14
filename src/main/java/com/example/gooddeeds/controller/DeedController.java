@@ -59,4 +59,9 @@ public class DeedController {
         return deedService.getUpcomingDeeds();
     }
 
+    @GetMapping(value = "/allupcomingdeeds")
+    public List<Deed> getAllUpcomingDeeds() throws ParseException {
+        return deedService.getAllUpcomingDeeds();
+    }
+
 }
