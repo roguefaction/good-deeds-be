@@ -109,7 +109,7 @@ public class DeedServiceImpl implements DeedService {
 
         Iterator<Deed> deedIterator = listToFilter.iterator();
 
-        Date currentDate = new Date();
+        Date currentDate = yesterday();
 
         while (deedIterator.hasNext()) {
             Deed currentDeed = deedIterator.next();
@@ -119,5 +119,11 @@ public class DeedServiceImpl implements DeedService {
         }
 
         return listToFilter;
+    }
+
+    private Date yesterday() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        return cal.getTime();
     }
 }
