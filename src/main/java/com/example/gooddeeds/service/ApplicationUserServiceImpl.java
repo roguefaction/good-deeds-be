@@ -40,4 +40,9 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
     public List<ApplicationUser> getAllUsers() {
         return applicationUserRepository.findAll();
     }
+
+    @Override
+    public ApplicationUser getUserByEmail(String email) {
+        return applicationUserRepository.findByEmail(email);
+    }
 }
