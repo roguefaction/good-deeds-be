@@ -1,9 +1,13 @@
 package com.example.gooddeeds.service;
 
+import com.example.gooddeeds.exceptions.InvalidFieldException;
 import com.example.gooddeeds.model.ApplicationUser;
 import com.example.gooddeeds.repository.ApplicationUserRepository;
+import com.example.gooddeeds.utils.UserValidator;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -14,7 +18,7 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public ApplicationUserServiceImpl(ApplicationUserRepository applicationUserRepository,
-                          BCryptPasswordEncoder bCryptPasswordEncoder) {
+                                      BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.applicationUserRepository = applicationUserRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -22,6 +26,12 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
 
     @Override
     public void registerUser(ApplicationUser user) {
+        try {
+            UserValidator.validateUser(user);
+        } catch (InvalidFieldException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
+        }
+
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         applicationUserRepository.save(user);
     }
