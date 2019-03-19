@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public ApplicationUser getUserInfo(Authentication authentication){
+    public ApplicationUser getUserInfo(Authentication authentication) {
 
         return applicationUserService.getUserByEmail(authentication.getName());
     }
