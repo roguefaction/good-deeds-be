@@ -32,6 +32,7 @@ public class UserValidator {
 
     public static void validateUser(ApplicationUser user) throws InvalidFieldException {
         DeedValidator.validateEmail(user.getEmail());
+        // TODO: change ad validate users name method so it would display correct error message
         DeedValidator.validateContactPerson(user.getName());
         DeedValidator.validatePhoneNumber(user.getPhone());
         UserValidator.validatePassword(user.getPassword());

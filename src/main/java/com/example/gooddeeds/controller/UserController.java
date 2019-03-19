@@ -24,4 +24,5 @@ public class UserController {
     public void signUp(@RequestBody ApplicationUser user) {
         applicationUserService.registerUser(user);
     }
+
 }
