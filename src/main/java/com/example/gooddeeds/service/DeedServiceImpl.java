@@ -71,19 +71,27 @@ public class DeedServiceImpl implements DeedService {
 
 
     @Override
-    public void deleteDeed(int id) {
+    public void deleteDeed(int id, ApplicationUser applicationUser) {
+
         Optional<Deed> deed = deedRepository.findById(id);
         if (deed.isPresent()) {
-            deedRepository.deleteById(id);
+            if(applicationUser.getId() != deed.get().getApplicationUser().getId()){
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ID_NOT_FOUND);
         }
+        deedRepository.deleteById(id);
     }
 
     @Override
-    public Deed editDeed(int id, Deed newDeed) {
+    public Deed editDeed(int id, Deed newDeed, ApplicationUser applicationUser) {
+
         Optional<Deed> deedToUpdate = deedRepository.findById(id);
         if (deedToUpdate.isPresent()) {
+            if(applicationUser.getId() != deedToUpdate.get().getApplicationUser().getId()){
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
             try {
                 DeedValidator.validateDeed(newDeed);
                 Deed newDeedWithId = new Deed.Builder(id)
@@ -99,6 +107,7 @@ public class DeedServiceImpl implements DeedService {
                         .description(newDeed.getDescription())
                         .tags(newDeed.getTags())
                         .build();
+                newDeedWithId.setApplicationUser(applicationUser);
                 return deedRepository.save(newDeedWithId);
             } catch (InvalidFieldException ex) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());

@@ -51,13 +51,15 @@ public class DeedController {
 
 
     @PutMapping(value = "/deed/{id}")
-    public Deed editDeed(@PathVariable int id, @RequestBody Deed deed) {
-        return deedService.editDeed(id, deed);
+    public Deed editDeed(@PathVariable int id, @RequestBody Deed deed, Authentication authentication) {
+        ApplicationUser applicationUser = applicationUserService.getUserByEmail(authentication.getName());
+        return deedService.editDeed(id, deed, applicationUser);
     }
 
     @DeleteMapping(value = "/deed/{id}")
-    public HttpStatus deleteDeed(@PathVariable int id) {
-        deedService.deleteDeed(id);
+    public HttpStatus deleteDeed(@PathVariable int id, Authentication authentication) {
+        ApplicationUser applicationUser =  applicationUserService.getUserByEmail(authentication.getName());
+        deedService.deleteDeed(id, applicationUser);
         return HttpStatus.OK;
     }
 

@@ -15,9 +15,9 @@ public interface DeedService {
 
     Deed createDeed(Deed deed, ApplicationUser applicationUser);
 
-    void deleteDeed(int id);
+    void deleteDeed(int id, ApplicationUser applicationUser);
 
-    Deed editDeed(int id, Deed deed);
+    Deed editDeed(int id, Deed deed, ApplicationUser applicationUser);
 
     List<Deed> getUpcomingDeeds() throws ParseException;
 
