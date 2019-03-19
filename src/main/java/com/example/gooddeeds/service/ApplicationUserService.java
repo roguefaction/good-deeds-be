@@ -11,4 +11,6 @@ public interface ApplicationUserService {
     void registerUser(ApplicationUser user);
 
     List<ApplicationUser> getAllUsers();
+
+    ApplicationUser getUserByEmail(String email);
 }
