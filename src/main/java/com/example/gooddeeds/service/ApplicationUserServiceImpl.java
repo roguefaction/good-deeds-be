@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ApplicationUserServiceImpl implements ApplicationUserService {
@@ -54,6 +55,12 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
     @Override
     public List<Deed> getUserDeedsByEmail(String email) {
         return deedRepository.findByApplicationUser(applicationUserRepository.findByEmail(email));
+    }
+
+    @Override
+    public Set<Deed> getUserParticipationDeeds(String email) {
+        ApplicationUser user = applicationUserRepository.findByEmail(email);
+        return user.getParticipatingDeeds();
     }
 
 

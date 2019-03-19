@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -72,5 +73,17 @@ public class DeedController {
     public List<Deed> getAllUpcomingDeeds() throws ParseException {
         return deedService.getAllUpcomingDeeds();
     }
+
+    @GetMapping(value = "/deed/{id}/participatingusers")
+    public Set<ApplicationUser> getParticipatingUsersOfDeed(@PathVariable (name = "id") int deedID) throws ParseException {
+        return deedService.getParticipatingUsersOfDeed(deedID);
+    }
+
+    @PostMapping(value = "/deed/{id}/participate")
+    public void addParticipatingUser(@PathVariable (name = "id") int deedID, Authentication authentication){
+        ApplicationUser applicationUser =  applicationUserService.getUserByEmail(authentication.getName());
+        deedService.addParticipatingUser(deedID, applicationUser);
+    }
+
 
 }

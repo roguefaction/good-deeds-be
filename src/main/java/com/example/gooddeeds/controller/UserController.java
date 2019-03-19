@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -37,5 +38,13 @@ public class UserController {
     public List<Deed> getUserDeeds(Authentication authentication){
         return applicationUserService.getUserDeedsByEmail(authentication.getName());
     }
+
+
+    @GetMapping("/participation-deeds")
+    public Set<Deed> getParticipationDeeds(Authentication authentication){
+        return applicationUserService.getUserParticipationDeeds(authentication.getName());
+    }
+
+
 
 }

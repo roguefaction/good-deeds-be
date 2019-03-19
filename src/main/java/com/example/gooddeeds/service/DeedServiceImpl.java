@@ -3,6 +3,7 @@ package com.example.gooddeeds.service;
 import com.example.gooddeeds.exceptions.InvalidFieldException;
 import com.example.gooddeeds.model.ApplicationUser;
 import com.example.gooddeeds.model.Deed;
+import com.example.gooddeeds.repository.ApplicationUserRepository;
 import com.example.gooddeeds.repository.DeedRepository;
 import com.example.gooddeeds.utils.DeedValidator;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
@@ -23,10 +24,12 @@ public class DeedServiceImpl implements DeedService {
     private static final String ID_NOT_FOUND = "Deed not found with given ID";
 
     private DeedRepository deedRepository;
+    private ApplicationUserRepository applicationUserRepository;
 
     @Autowired
-    public DeedServiceImpl(DeedRepository deedRepository) {
+    public DeedServiceImpl(DeedRepository deedRepository, ApplicationUserRepository applicationUserRepository) {
         this.deedRepository = deedRepository;
+        this.applicationUserRepository = applicationUserRepository;
     }
 
     @Override
@@ -56,6 +59,28 @@ public class DeedServiceImpl implements DeedService {
         List<Deed> orderedDeeds = deedRepository.findAllByOrderByDateAsc();
 
         return currentDateFilter(orderedDeeds);
+    }
+
+    @Override
+    public Set<ApplicationUser> getParticipatingUsersOfDeed(int deedID) {
+        Optional<Deed> deed = deedRepository.findById(deedID);
+        if(deed.isPresent()){
+            return deed.get().getParticipatingUsers();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ID_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public void addParticipatingUser(int deedID, ApplicationUser applicationUser) {
+        Optional<Deed> deed = deedRepository.findById(deedID);
+        if(deed.isPresent()){
+            applicationUser.getParticipatingDeeds().add(deed.get());
+            deed.get().getParticipatingUsers().add(applicationUser);
+            deedRepository.save(deed.get());
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ID_NOT_FOUND);
+        }
     }
 
     @Override

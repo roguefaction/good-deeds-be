@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public interface DeedService {
@@ -23,4 +24,7 @@ public interface DeedService {
 
     List<Deed> getAllUpcomingDeeds() throws ParseException;
 
+    Set<ApplicationUser> getParticipatingUsersOfDeed(int deedID);
+
+    void addParticipatingUser(int deedID, ApplicationUser applicationUser);
 }

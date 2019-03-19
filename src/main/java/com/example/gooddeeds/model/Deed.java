@@ -2,28 +2,24 @@ package com.example.gooddeeds.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "deed")
 public class Deed implements Serializable {
 
 
-    public ApplicationUser getApplicationUser() {
-        return applicationUser;
-    }
-
-    public void setApplicationUser(ApplicationUser applicationUser) {
-        this.applicationUser = applicationUser;
-    }
-
     public static class Builder {
 
         private int id;
+
         private String title;
         private String city;
         private String date;
@@ -35,7 +31,6 @@ public class Deed implements Serializable {
         private int currentPeople;
         private String description;
         private String tags;
-
         public Builder(int id) {
             this.id = id;
         }
@@ -124,8 +119,8 @@ public class Deed implements Serializable {
             return deed;
         }
 
-    }
 
+    }
     @Id
     @Column(name = "deed_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -169,6 +164,17 @@ public class Deed implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private ApplicationUser applicationUser;
+
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "deeds_users",
+            joinColumns = { @JoinColumn(name = "deed_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") })
+    private Set<ApplicationUser> participatingUsers = new HashSet<>();
 
     private Deed(){
 
@@ -220,6 +226,22 @@ public class Deed implements Serializable {
 
     public String getDate() {
         return date;
+    }
+
+    public ApplicationUser getApplicationUser() {
+        return applicationUser;
+    }
+
+    public void setApplicationUser(ApplicationUser applicationUser) {
+        this.applicationUser = applicationUser;
+    }
+
+    public Set<ApplicationUser> getParticipatingUsers() {
+        return participatingUsers;
+    }
+
+    public void setParticipatingUsers(Set<ApplicationUser> participatingUsers) {
+        this.participatingUsers = participatingUsers;
     }
 
 }

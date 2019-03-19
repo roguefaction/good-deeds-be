@@ -5,6 +5,7 @@ import com.example.gooddeeds.model.Deed;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public interface ApplicationUserService {
@@ -16,4 +17,6 @@ public interface ApplicationUserService {
     ApplicationUser getUserByEmail(String email);
 
     List<Deed> getUserDeedsByEmail(String name);
+
+    Set<Deed> getUserParticipationDeeds(String email);
 }

@@ -1,7 +1,11 @@
 package com.example.gooddeeds.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table (name = "application_user")
@@ -22,6 +26,15 @@ public class ApplicationUser implements Serializable {
 
     @Column (name = "name")
     private String name;
+
+    @JsonBackReference
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "participatingUsers")
+    private Set<Deed> participatingDeeds = new HashSet<>();
 
     public ApplicationUser(String email, String password, String phone, String name) {
         this.email = email;
@@ -71,5 +84,13 @@ public class ApplicationUser implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Deed> getParticipatingDeeds() {
+        return participatingDeeds;
+    }
+
+    public void setParticipatingDeeds(Set<Deed> participatingDeeds) {
+        this.participatingDeeds = participatingDeeds;
     }
 }
