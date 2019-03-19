@@ -1,9 +1,11 @@
 package com.example.gooddeeds.service;
 
 import com.example.gooddeeds.exceptions.InvalidFieldException;
+import com.example.gooddeeds.model.ApplicationUser;
 import com.example.gooddeeds.model.Deed;
 import com.example.gooddeeds.repository.DeedRepository;
 import com.example.gooddeeds.utils.DeedValidator;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -57,7 +59,8 @@ public class DeedServiceImpl implements DeedService {
     }
 
     @Override
-    public Deed createDeed(Deed deed) {
+    public Deed createDeed(Deed deed, ApplicationUser applicationUser) {
+        deed.setApplicationUser(applicationUser);
         try {
             DeedValidator.validateDeed(deed);
         } catch (InvalidFieldException ex) {

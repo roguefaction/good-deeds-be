@@ -1,6 +1,7 @@
 package com.example.gooddeeds.service;
 
 import com.example.gooddeeds.model.ApplicationUser;
+import com.example.gooddeeds.model.Deed;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface ApplicationUserService {
     List<ApplicationUser> getAllUsers();
 
     ApplicationUser getUserByEmail(String email);
+
+    List<Deed> getUserDeedsByEmail(String name);
 }

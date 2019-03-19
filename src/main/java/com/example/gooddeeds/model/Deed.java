@@ -1,18 +1,25 @@
 package com.example.gooddeeds.model;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "deed")
 public class Deed implements Serializable {
 
+
+    public ApplicationUser getApplicationUser() {
+        return applicationUser;
+    }
+
+    public void setApplicationUser(ApplicationUser applicationUser) {
+        this.applicationUser = applicationUser;
+    }
 
     public static class Builder {
 
@@ -156,6 +163,12 @@ public class Deed implements Serializable {
 
     @Column(name = "tags")
     private String tags;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "application_user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private ApplicationUser applicationUser;
 
     private Deed(){
 

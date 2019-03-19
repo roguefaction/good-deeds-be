@@ -1,10 +1,13 @@
 package com.example.gooddeeds.controller;
 
 import com.example.gooddeeds.model.ApplicationUser;
+import com.example.gooddeeds.model.Deed;
 import com.example.gooddeeds.service.ApplicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -28,6 +31,11 @@ public class UserController {
     public ApplicationUser getUserInfo(Authentication authentication){
 
         return applicationUserService.getUserByEmail(authentication.getName());
+    }
+
+    @GetMapping("/deeds")
+    public List<Deed> getUserDeeds(Authentication authentication){
+        return applicationUserService.getUserDeedsByEmail(authentication.getName());
     }
 
 }

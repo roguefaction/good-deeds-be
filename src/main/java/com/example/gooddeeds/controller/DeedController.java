@@ -1,10 +1,14 @@
 package com.example.gooddeeds.controller;
 
+import com.example.gooddeeds.model.ApplicationUser;
 import com.example.gooddeeds.model.Deed;
+import com.example.gooddeeds.service.ApplicationUserService;
 import com.example.gooddeeds.service.DeedService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,10 +25,12 @@ import java.util.List;
 @RestController
 public class DeedController {
     private DeedService deedService;
+    private ApplicationUserService applicationUserService;
 
     @Autowired
-    public DeedController(DeedService deedService) {
+    public DeedController(DeedService deedService, ApplicationUserService applicationUserService) {
         this.deedService = deedService;
+        this.applicationUserService = applicationUserService;
     }
 
     @GetMapping(value = "/deeds")
@@ -38,8 +44,9 @@ public class DeedController {
     }
 
     @PostMapping(value = "/deed")
-    public Deed createDeed(@RequestBody Deed deed) {
-        return deedService.createDeed(deed);
+    public Deed createDeed(@RequestBody Deed deed, Authentication authentication) {
+        ApplicationUser applicationUser = applicationUserService.getUserByEmail(authentication.getName());
+        return deedService.createDeed(deed, applicationUser);
     }
 
 

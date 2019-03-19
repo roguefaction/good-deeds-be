@@ -1,5 +1,6 @@
 package com.example.gooddeeds.service;
 
+import com.example.gooddeeds.model.ApplicationUser;
 import com.example.gooddeeds.model.Deed;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ public interface DeedService {
 
     Deed getDeedById(int id);
 
-    Deed createDeed(Deed deed);
+    Deed createDeed(Deed deed, ApplicationUser applicationUser);
 
     void deleteDeed(int id);
 
@@ -21,4 +22,5 @@ public interface DeedService {
     List<Deed> getUpcomingDeeds() throws ParseException;
 
     List<Deed> getAllUpcomingDeeds() throws ParseException;
+
 }
