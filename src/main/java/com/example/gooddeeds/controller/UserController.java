@@ -45,6 +45,4 @@ public class UserController {
         return applicationUserService.getUserParticipationDeeds(authentication.getName());
     }
 
-
-
 }

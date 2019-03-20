@@ -1,10 +1,7 @@
 package com.example.gooddeeds.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -124,7 +121,7 @@ public class Deed implements Serializable {
 
     }
     @Id
-    @Column(name = "deed_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
@@ -167,7 +164,7 @@ public class Deed implements Serializable {
     @JsonIgnore
     private ApplicationUser applicationUser;
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property="id")
+
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
