@@ -51,8 +51,8 @@ public class DeedController {
     }
 
 
-    @PutMapping(value = "/deed/{id}")
-    public Deed editDeed(@PathVariable int id, @RequestBody Deed deed, Authentication authentication) {
+    @PostMapping(value = "/deed/{id}/edit")
+    public Deed editDeed(@PathVariable(name = "id") int id, @RequestBody Deed deed, Authentication authentication) {
         ApplicationUser applicationUser = applicationUserService.getUserByEmail(authentication.getName());
         return deedService.editDeed(id, deed, applicationUser);
     }
