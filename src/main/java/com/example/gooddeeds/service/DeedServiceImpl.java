@@ -77,11 +77,10 @@ public class DeedServiceImpl implements DeedService {
             if (deed.get().getParticipatingUsers().contains(applicationUser)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You are already participating in this deed");
             }
-            if (deed.get().getCurrentPeople() < deed.get().getMaxPeople()) {
+            if (deed.get().getParticipatingUsers().size() < deed.get().getMaxPeople()) {
 
                 applicationUser.getParticipatingDeeds().add(deed.get());
                 deed.get().getParticipatingUsers().add(applicationUser);
-                deed.get().setCurrentPeople(deed.get().getCurrentPeople() + 1);
                 deedRepository.save(deed.get());
             } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Deed already has maximum participants");
@@ -98,7 +97,6 @@ public class DeedServiceImpl implements DeedService {
         if (deed.isPresent()) {
             if (deed.get().getParticipatingUsers().contains(applicationUser)) {
                 deed.get().getParticipatingUsers().remove(applicationUser);
-                deed.get().setCurrentPeople(deed.get().getCurrentPeople() - 1);
                 deedRepository.save(deed.get());
             } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user is not participating in this deed");
