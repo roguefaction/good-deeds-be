@@ -18,8 +18,7 @@ public class ApplicationUser implements Serializable {
 
     @Column (name = "email", unique = true)
     private String email;
-
-    @JsonIgnore
+    
     @Column (name = "password")
     private String password;
 
