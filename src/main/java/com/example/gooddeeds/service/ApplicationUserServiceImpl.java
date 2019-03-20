@@ -5,6 +5,7 @@ import com.example.gooddeeds.model.ApplicationUser;
 import com.example.gooddeeds.model.Deed;
 import com.example.gooddeeds.repository.ApplicationUserRepository;
 import com.example.gooddeeds.repository.DeedRepository;
+import com.example.gooddeeds.utils.UserHelper;
 import com.example.gooddeeds.utils.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,7 +45,7 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
 
     @Override
     public List<ApplicationUser> getAllUsers() {
-        return applicationUserRepository.findAll();
+        return UserHelper.hidePassword(applicationUserRepository.findAll());
     }
 
     @Override

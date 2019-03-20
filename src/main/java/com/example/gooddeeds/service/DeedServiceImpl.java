@@ -6,6 +6,8 @@ import com.example.gooddeeds.model.Deed;
 import com.example.gooddeeds.repository.ApplicationUserRepository;
 import com.example.gooddeeds.repository.DeedRepository;
 import com.example.gooddeeds.utils.DeedValidator;
+import com.example.gooddeeds.utils.UserHelper;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,13 @@ public class DeedServiceImpl implements DeedService {
 
     @Override
     public List<Deed> getAllDeeds() {
-        return deedRepository.findAllByOrderByIdDesc();
+
+        List<Deed> deeds = deedRepository.findAllByOrderByIdDesc();
+        for (Deed deed : deeds) {
+            List<ApplicationUser> participatingUsers = new ArrayList<>();
+            participatingUsers.addAll(deed.getParticipatingUsers());
+            deed.setParticipatingUsers(UserHelper.hidePassword(participatingUsers));
+        }
     }
 
     @Override
@@ -61,10 +69,12 @@ public class DeedServiceImpl implements DeedService {
     }
 
     @Override
-    public Set<ApplicationUser> getParticipatingUsersOfDeed(int deedID) {
+    public List<ApplicationUser> getParticipatingUsersOfDeed(int deedID) {
         Optional<Deed> deed = deedRepository.findById(deedID);
         if (deed.isPresent()) {
-            return deed.get().getParticipatingUsers();
+            List<ApplicationUser> userList = new ArrayList<>();
+            userList.addAll(deed.get().getParticipatingUsers());
+            return UserHelper.hidePassword(userList);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ID_NOT_FOUND);
         }

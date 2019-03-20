@@ -2,6 +2,7 @@ package com.example.gooddeeds.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,7 +20,6 @@ public class ApplicationUser implements Serializable {
     @Column (name = "email", unique = true)
     private String email;
 
-    @JsonIgnore
     @Column (name = "password")
     private String password;
 

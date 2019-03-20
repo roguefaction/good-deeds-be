@@ -24,7 +24,7 @@ public interface DeedService {
 
     List<Deed> getAllUpcomingDeeds() throws ParseException;
 
-    Set<ApplicationUser> getParticipatingUsersOfDeed(int deedID);
+    List<ApplicationUser> getParticipatingUsersOfDeed(int deedID);
 
     void addParticipatingUser(int deedID, ApplicationUser applicationUser);
 

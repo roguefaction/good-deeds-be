@@ -75,7 +75,7 @@ public class DeedController {
     }
 
     @GetMapping(value = "/deed/{id}/participatingusers")
-    public Set<ApplicationUser> getParticipatingUsersOfDeed(@PathVariable (name = "id") int deedID) throws ParseException {
+    public List<ApplicationUser> getParticipatingUsersOfDeed(@PathVariable (name = "id") int deedID) throws ParseException {
         return deedService.getParticipatingUsersOfDeed(deedID);
     }
 
