@@ -6,7 +6,6 @@ import com.example.gooddeeds.model.Deed;
 import com.example.gooddeeds.repository.ApplicationUserRepository;
 import com.example.gooddeeds.repository.DeedRepository;
 import com.example.gooddeeds.utils.DeedValidator;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -64,7 +63,7 @@ public class DeedServiceImpl implements DeedService {
     @Override
     public Set<ApplicationUser> getParticipatingUsersOfDeed(int deedID) {
         Optional<Deed> deed = deedRepository.findById(deedID);
-        if(deed.isPresent()){
+        if (deed.isPresent()) {
             return deed.get().getParticipatingUsers();
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ID_NOT_FOUND);
@@ -74,10 +73,36 @@ public class DeedServiceImpl implements DeedService {
     @Override
     public void addParticipatingUser(int deedID, ApplicationUser applicationUser) {
         Optional<Deed> deed = deedRepository.findById(deedID);
-        if(deed.isPresent()){
-            applicationUser.getParticipatingDeeds().add(deed.get());
-            deed.get().getParticipatingUsers().add(applicationUser);
-            deedRepository.save(deed.get());
+        if (deed.isPresent()) {
+            if (deed.get().getParticipatingUsers().contains(applicationUser)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You are already participating in this deed");
+            }
+            if (deed.get().getCurrentPeople() < deed.get().getMaxPeople()) {
+
+                applicationUser.getParticipatingDeeds().add(deed.get());
+                deed.get().getParticipatingUsers().add(applicationUser);
+                deed.get().setCurrentPeople(deed.get().getCurrentPeople() + 1);
+                deedRepository.save(deed.get());
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Deed already has maximum participants");
+            }
+
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ID_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public void removeParticipatingUser(int deedID, ApplicationUser applicationUser) {
+        Optional<Deed> deed = deedRepository.findById(deedID);
+        if (deed.isPresent()) {
+            if (deed.get().getParticipatingUsers().contains(applicationUser)) {
+                deed.get().getParticipatingUsers().remove(applicationUser);
+                deed.get().setCurrentPeople(deed.get().getCurrentPeople() - 1);
+                deedRepository.save(deed.get());
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user is not participating in this deed");
+            }
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ID_NOT_FOUND);
         }
@@ -94,13 +119,12 @@ public class DeedServiceImpl implements DeedService {
         return deedRepository.save(deed);
     }
 
-
     @Override
     public void deleteDeed(int id, ApplicationUser applicationUser) {
 
         Optional<Deed> deed = deedRepository.findById(id);
         if (deed.isPresent()) {
-            if(applicationUser.getId() != deed.get().getApplicationUser().getId()){
+            if (applicationUser.getId() != deed.get().getApplicationUser().getId()) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
             }
         } else {
@@ -114,7 +138,7 @@ public class DeedServiceImpl implements DeedService {
 
         Optional<Deed> deedToUpdate = deedRepository.findById(id);
         if (deedToUpdate.isPresent()) {
-            if(applicationUser.getId() != deedToUpdate.get().getApplicationUser().getId()){
+            if (applicationUser.getId() != deedToUpdate.get().getApplicationUser().getId()) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
             }
             try {

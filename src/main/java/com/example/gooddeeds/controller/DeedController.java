@@ -85,5 +85,10 @@ public class DeedController {
         deedService.addParticipatingUser(deedID, applicationUser);
     }
 
+    @DeleteMapping(value = "/deed/{id}/participate")
+    public void removeParticipatingUser(@PathVariable (name = "id") int deedID, Authentication authentication){
+        ApplicationUser applicationUser =  applicationUserService.getUserByEmail(authentication.getName());
+        deedService.removeParticipatingUser(deedID, applicationUser);
+    }
 
 }

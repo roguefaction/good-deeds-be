@@ -27,4 +27,6 @@ public interface DeedService {
     Set<ApplicationUser> getParticipatingUsersOfDeed(int deedID);
 
     void addParticipatingUser(int deedID, ApplicationUser applicationUser);
+
+    void removeParticipatingUser(int deedID, ApplicationUser applicationUser);
 }

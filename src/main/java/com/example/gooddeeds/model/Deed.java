@@ -15,6 +15,10 @@ import java.util.Set;
 public class Deed implements Serializable {
 
 
+    public void setCurrentPeople(int currentPeople) {
+        this.currentPeople = currentPeople;
+    }
+
     public static class Builder {
 
         private int id;
