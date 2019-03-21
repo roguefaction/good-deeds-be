@@ -59,7 +59,7 @@ public class DeedController {
         return deedService.editDeed(id, deed, applicationUser);
     }
 
-    @DeleteMapping(value = "/deed/{id}")
+    @PostMapping(value = "/deed/{id}/delete")
     public HttpStatus deleteDeed(@PathVariable int id, Authentication authentication) {
         ApplicationUser applicationUser =  applicationUserService.getUserByEmail(authentication.getName());
         deedService.deleteDeed(id, applicationUser);
@@ -87,7 +87,7 @@ public class DeedController {
         deedService.addParticipatingUser(deedID, applicationUser);
     }
 
-    @DeleteMapping(value = "/deed/{id}/participate")
+    @PostMapping(value = "/deed/{id}/participate/delete")
     public void removeParticipatingUser(@PathVariable (name = "id") int deedID, Authentication authentication){
         ApplicationUser applicationUser =  applicationUserService.getUserByEmail(authentication.getName());
         deedService.removeParticipatingUser(deedID, applicationUser);
