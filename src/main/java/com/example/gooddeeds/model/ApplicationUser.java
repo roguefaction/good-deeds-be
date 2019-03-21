@@ -20,7 +20,6 @@ public class ApplicationUser implements Serializable {
     private String email;
 
     @Column (name = "password")
-    @JsonIgnore
     private String password;
 
     @Column (name = "phone")
