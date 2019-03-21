@@ -47,7 +47,9 @@ public class DeedController {
     @PostMapping(value = "/deed")
     public Deed createDeed(@RequestBody Deed deed, Authentication authentication) {
         ApplicationUser applicationUser = applicationUserService.getUserByEmail(authentication.getName());
-        return deedService.createDeed(deed, applicationUser);
+        Deed deedToReturn = deedService.createDeed(deed, applicationUser);
+        deedService.addParticipatingUser(deedToReturn.getId(), applicationUser);
+        return deedToReturn;
     }
 
 
