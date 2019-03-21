@@ -5,6 +5,7 @@ import com.example.gooddeeds.model.ApplicationUser;
 import com.example.gooddeeds.model.Deed;
 import com.example.gooddeeds.repository.ApplicationUserRepository;
 import com.example.gooddeeds.repository.DeedRepository;
+import com.example.gooddeeds.utils.DeedSorter;
 import com.example.gooddeeds.utils.DeedValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,14 +51,14 @@ public class DeedServiceImpl implements DeedService {
     public List<Deed> getUpcomingDeeds() throws ParseException {
         List<Deed> orderedDeeds = deedRepository.findAllByOrderByDateAsc();
 
-        return new ArrayList<>(currentDateFilter(orderedDeeds).subList(0, 3));
+        return new ArrayList<>(DeedSorter.currentDateFilter(orderedDeeds).subList(0, 3));
     }
 
     @Override
     public List<Deed> getAllUpcomingDeeds() throws ParseException {
         List<Deed> orderedDeeds = deedRepository.findAllByOrderByDateAsc();
 
-        return currentDateFilter(orderedDeeds);
+        return DeedSorter.currentDateFilter(orderedDeeds);
     }
 
     @Override
@@ -162,27 +163,5 @@ public class DeedServiceImpl implements DeedService {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ID_NOT_FOUND);
         }
-    }
-
-    private List<Deed> currentDateFilter(List<Deed> listToFilter) throws ParseException {
-
-        Iterator<Deed> deedIterator = listToFilter.iterator();
-
-        Date currentDate = yesterday();
-
-        while (deedIterator.hasNext()) {
-            Deed currentDeed = deedIterator.next();
-            Date deedDate = new SimpleDateFormat("yyyy-MM-dd").parse(currentDeed.getDate());
-            if (deedDate.compareTo(currentDate) < 0)
-                deedIterator.remove();
-        }
-
-        return listToFilter;
-    }
-
-    private Date yesterday() {
-        final Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -1);
-        return cal.getTime();
     }
 }

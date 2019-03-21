@@ -5,6 +5,7 @@ import com.example.gooddeeds.model.ApplicationUser;
 import com.example.gooddeeds.model.Deed;
 import com.example.gooddeeds.repository.ApplicationUserRepository;
 import com.example.gooddeeds.repository.DeedRepository;
+import com.example.gooddeeds.utils.DeedSorter;
 import com.example.gooddeeds.utils.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -54,13 +57,27 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
 
     @Override
     public List<Deed> getUserDeedsByEmail(String email) {
-        return deedRepository.findByApplicationUser(applicationUserRepository.findByEmail(email));
+        List<Deed> usersDeeds = deedRepository.findByApplicationUser(applicationUserRepository.findByEmail(email));
+        try{
+            return DeedSorter.currentDateFilter(usersDeeds);
+
+        } catch(ParseException ex){
+            return usersDeeds;
+        }
     }
 
     @Override
-    public Set<Deed> getUserParticipationDeeds(String email) {
+    public List<Deed> getUserParticipationDeeds(String email) {
         ApplicationUser user = applicationUserRepository.findByEmail(email);
-        return user.getParticipatingDeeds();
+        Set<Deed> deeds = user.getParticipatingDeeds();
+        List<Deed> participationDeeds = new ArrayList<>();
+        participationDeeds.addAll(deeds);
+        try{
+            return DeedSorter.currentDateFilter(participationDeeds);
+        } catch (ParseException ex){
+            return participationDeeds;
+        }
+
     }
 
 

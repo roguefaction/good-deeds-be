@@ -18,5 +18,5 @@ public interface ApplicationUserService {
 
     List<Deed> getUserDeedsByEmail(String name);
 
-    Set<Deed> getUserParticipationDeeds(String email);
+    List<Deed> getUserParticipationDeeds(String email);
 }
