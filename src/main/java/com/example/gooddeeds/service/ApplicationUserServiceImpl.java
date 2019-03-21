@@ -13,8 +13,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.xml.ws.http.HTTPException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -57,19 +59,22 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
 
     @Override
     public List<Deed> getUserDeedsByEmail(String email) {
-        List<Deed> usersDeeds = deedRepository.findByApplicationUser(applicationUserRepository.findByEmail(email));
+        List<Deed> usersDeeds = deedRepository.findByApplicationUserOrderByDateAsc(applicationUserRepository.findByEmail(email));
         try{
+
             return DeedSorter.currentDateFilter(usersDeeds);
 
         } catch(ParseException ex){
-            return usersDeeds;
+            throw new HTTPException(405);
         }
     }
 
     @Override
     public List<Deed> getUserParticipationDeeds(String email) {
         ApplicationUser user = applicationUserRepository.findByEmail(email);
-        Set<Deed> deeds = user.getParticipatingDeeds();
+        Set<ApplicationUser> userSet = new HashSet<>();
+        userSet.add(user);
+        List<Deed> deeds = deedRepository.findAllByParticipatingUsersOrderByDateAsc(userSet);
         List<Deed> participationDeeds = new ArrayList<>();
         participationDeeds.addAll(deeds);
         try{
