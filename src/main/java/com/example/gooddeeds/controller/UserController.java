@@ -41,7 +41,7 @@ public class UserController {
 
 
     @GetMapping("/participation-deeds")
-    public Set<Deed> getParticipationDeeds(Authentication authentication){
+    public List<Deed> getParticipationDeeds(Authentication authentication){
         return applicationUserService.getUserParticipationDeeds(authentication.getName());
     }
 
